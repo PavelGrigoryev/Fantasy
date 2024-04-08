@@ -1,0 +1,9 @@
+subprojects {
+    group = 'com.grigoryev'
+    version = '1.0-SNAPSHOT'
+
+    repositories {
+        mavenCentral()
+    }
+
+}
