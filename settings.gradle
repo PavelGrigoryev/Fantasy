@@ -1,2 +1,3 @@
 rootProject.name = 'Fantasy'
-include 'FlowOfFate'
+include 'FlowOfFate',
+        'Heroes'

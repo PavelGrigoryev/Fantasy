@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package heroes;
+
+option java_package = "com.grigoryev.heroes";
+option java_multiple_files = true;
+
+message Hero {
+  int64 id = 1;
+  string name = 2;
+  Type type = 3;
+  Status status = 4;
+  int32 level = 5;
+}
+
+enum Type {
+  WARRIOR = 0;
+  HUNTER = 1;
+  MAGE = 2;
+  PRIEST = 3;
+  ROGUE = 4;
+}
+
+enum Status {
+  EXPLORING = 0;
+  FIGHTING = 1;
+  RESTING = 2;
+}
+
+message FindByIdRequest {
+  int64 id = 1;
+}
+
+service BlogService {
+  rpc findById(stream FindByIdRequest) returns (stream Hero) {};
+}
