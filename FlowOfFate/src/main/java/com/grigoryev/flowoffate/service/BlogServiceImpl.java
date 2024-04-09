@@ -3,13 +3,14 @@ package com.grigoryev.flowoffate.service;
 import com.google.protobuf.Empty;
 import com.grigoryev.blog.Blog;
 import com.grigoryev.blog.BlogServiceGrpc;
+import com.grigoryev.blog.FindByIdRequest;
 import com.grigoryev.flowoffate.mapper.BlogMapper;
 import com.grigoryev.flowoffate.repository.BlogRepository;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
-import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.factory.Mappers;
 
-@Slf4j
 public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
 
     private final BlogRepository blogRepository;
@@ -21,14 +22,26 @@ public class BlogServiceImpl extends BlogServiceGrpc.BlogServiceImplBase {
     }
 
     @Override
+    public void findById(FindByIdRequest request, StreamObserver<Blog> responseObserver) {
+        Blog blog = blogRepository.findById(request.getId())
+                .map(blogMapper::toBlog)
+                .orElseThrow(() -> {
+                    StatusRuntimeException runtimeException = Status.NOT_FOUND
+                            .withDescription("Blog with id %s not found".formatted(request.getId()))
+                            .asRuntimeException();
+                    responseObserver.onError(runtimeException);
+                    return runtimeException;
+                });
+        responseObserver.onNext(blog);
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void findAll(Empty request, StreamObserver<Blog> responseObserver) {
         blogRepository.findAll()
                 .stream()
                 .map(blogMapper::toBlog)
-                .forEach(blog -> {
-                    log.info("Found blog: {}", blog);
-                    responseObserver.onNext(blog);
-                });
+                .forEach(responseObserver::onNext);
         responseObserver.onCompleted();
     }
 

@@ -10,10 +10,12 @@ java {
     sourceCompatibility = targetCompatibility = '17'
 }
 
-apply from: 'libraries.gradle'
-apply from: 'protobuf.gradle'
-apply from: 'liquibase.gradle'
-apply from: 'jooq.gradle'
+apply {
+    from('libraries.gradle')
+    from('protobuf.gradle')
+    from('liquibase.gradle')
+    from('jooq.gradle')
+}
 
 generateJooq.dependsOn(update)
 

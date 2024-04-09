@@ -1,2 +1,9 @@
 ###findAll
 GRPC localhost:50051/blog.BlogService/findAll
+
+###findById
+GRPC localhost:50051/blog.BlogService/findById
+
+{
+  "id": "3"
+}
