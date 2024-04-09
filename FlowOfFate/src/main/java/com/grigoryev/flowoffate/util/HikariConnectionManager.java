@@ -1,5 +1,6 @@
 package com.grigoryev.flowoffate.util;
 
+import com.grigoryev.flowoffate.exception.HikariConnectionPoolException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.experimental.UtilityClass;
@@ -7,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Map;
 
 @Slf4j
 @UtilityClass
@@ -16,11 +18,12 @@ public class HikariConnectionManager {
     private final HikariDataSource DATA_SOURCE;
 
     static {
-        CONFIG.setJdbcUrl("jdbc:postgresql://localhost:5432/fantasy");
-        CONFIG.setUsername("pavel");
-        CONFIG.setPassword("pavel");
-        CONFIG.setDriverClassName("org.postgresql.Driver");
-        CONFIG.setMaximumPoolSize(30);
+        Map<String, String> postgresql = YamlUtil.getYaml().get("postgresql");
+        CONFIG.setJdbcUrl(postgresql.get("url"));
+        CONFIG.setUsername(postgresql.get("user"));
+        CONFIG.setPassword(postgresql.get("password"));
+        CONFIG.setDriverClassName(postgresql.get("driver"));
+        CONFIG.setMaximumPoolSize(Integer.parseInt(postgresql.get("maximumPoolSize")));
         DATA_SOURCE = new HikariDataSource(CONFIG);
     }
 
@@ -30,7 +33,7 @@ public class HikariConnectionManager {
             connection = DATA_SOURCE.getConnection();
         } catch (SQLException e) {
             log.error(e.getMessage());
-            throw new RuntimeException();
+            throw new HikariConnectionPoolException("Hikari connection pool error %s".formatted(e.getMessage()));
         }
         return connection;
     }

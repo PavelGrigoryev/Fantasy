@@ -1,0 +1,34 @@
+jooq {
+    version = "$jooqVersion"
+    configurations {
+        main {
+            generationTool {
+                jdbc {
+                    driver = project.ext.driver
+                    url = project.ext.url
+                    user = project.ext.username
+                    password = project.ext.password
+                }
+                generator {
+                    database {
+                        inputSchema = 'public'
+                        excludes = 'databasechangelog|databasechangeloglock'
+                    }
+                    generate {
+                        pojosEqualsAndHashCode = true
+                        relations = true
+                        deprecated = false
+                        records = true
+                        pojos = true
+                        immutablePojos = false
+                        fluentSetters = true
+                    }
+                    target {
+                        packageName = "${project.ext.packageName}.flowoffate"
+                        directory = 'build/generated/sources/jooq/main'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+postgresql:
+  url: "jdbc:postgresql://localhost:5432/fantasy"
+  user: "pavel"
+  password: "pavel"
+  driver: "org.postgresql.Driver"
+  maximumPoolSize: "30"
+server:
+  port: "50051"
