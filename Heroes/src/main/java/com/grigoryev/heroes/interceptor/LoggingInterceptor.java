@@ -1,4 +1,4 @@
-package com.grigoryev.flowoffate.interceptor;
+package com.grigoryev.heroes.interceptor;
 
 import io.grpc.ForwardingServerCall;
 import io.grpc.ForwardingServerCallListener;
