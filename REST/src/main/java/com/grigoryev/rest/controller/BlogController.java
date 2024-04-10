@@ -23,7 +23,7 @@ public class BlogController {
         return blogService.findById(id);
     }
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_NDJSON_VALUE)
     public Flux<Blog> findAll() {
         return blogService.findAll();
     }
