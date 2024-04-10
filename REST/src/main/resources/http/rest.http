@@ -4,4 +4,4 @@ Accept: application/json
 
 ### findAll
 GET http://localhost:8080/blog
-Accept: application/json
+Accept: text/event-stream
