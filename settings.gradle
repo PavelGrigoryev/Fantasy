@@ -1,3 +1,4 @@
 rootProject.name = 'Fantasy'
 include 'FlowOfFate',
-        'Heroes'
+        'Heroes',
+        'REST'
