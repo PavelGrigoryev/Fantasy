@@ -1,8 +1,10 @@
 ###findAll
 GRPC localhost:50051/blog.BlogService/findAll
+Authorization: Bearer access-token:clientId:+1
 
 ###findById
 GRPC localhost:50051/blog.BlogService/findById
+Authorization: Bearer access-token:clientId:+1
 
 {
   "id": "3"

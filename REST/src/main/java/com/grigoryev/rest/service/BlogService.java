@@ -4,6 +4,7 @@ import com.google.protobuf.Empty;
 import com.grigoryev.blog.Blog;
 import com.grigoryev.blog.BlogServiceGrpc;
 import com.grigoryev.blog.FindByIdRequest;
+import com.grigoryev.rest.token.TokenCredentials;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
@@ -23,9 +24,10 @@ public class BlogService {
     @Value("${gRPC.port}")
     private Integer port;
 
-    public Mono<Blog> findById(String id) {
+    public Mono<Blog> findById(String id, String token) {
         ManagedChannel channel = getChannel();
-        BlogServiceGrpc.BlogServiceStub asyncStub = BlogServiceGrpc.newStub(channel);
+        BlogServiceGrpc.BlogServiceStub asyncStub = BlogServiceGrpc.newStub(channel)
+                .withCallCredentials(new TokenCredentials(token));
         return Mono.<Blog>create(sink -> {
                     StreamObserver<Blog> responseObserver = new StreamObserver<>() {
                         @Override
@@ -48,9 +50,10 @@ public class BlogService {
                 .log();
     }
 
-    public Flux<Blog> findAll() {
+    public Flux<Blog> findAll(String token) {
         ManagedChannel channel = getChannel();
-        BlogServiceGrpc.BlogServiceStub asyncStub = BlogServiceGrpc.newStub(channel);
+        BlogServiceGrpc.BlogServiceStub asyncStub = BlogServiceGrpc.newStub(channel)
+                .withCallCredentials(new TokenCredentials(token));
         return Flux.<Blog>create(sink -> {
                     StreamObserver<Blog> responseObserver = new StreamObserver<>() {
                         @Override

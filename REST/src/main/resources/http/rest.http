@@ -1,7 +1,9 @@
 ### findById
 GET http://localhost:8080/blog/3
 Accept: application/json
+Authorization: Bearer access-token:clientId:+1
 
 ### findAll
 GET http://localhost:8080/blog
-Content-Type: application/ x-ndjson
+Content-Type: text/event-stream
+Authorization: Bearer access-token:clientId:+1

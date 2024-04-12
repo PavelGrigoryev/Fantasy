@@ -1,5 +1,6 @@
 package com.grigoryev.flowoffate;
 
+import com.grigoryev.flowoffate.interceptor.AuthorizationInterceptor;
 import com.grigoryev.flowoffate.interceptor.LoggingInterceptor;
 import com.grigoryev.flowoffate.service.BlogServiceImpl;
 import com.grigoryev.flowoffate.util.YamlUtil;
@@ -18,6 +19,7 @@ public class Application {
 
         Server server = ServerBuilder.forPort(port)
                 .addService(new BlogServiceImpl())
+                .intercept(new AuthorizationInterceptor())
                 .intercept(new LoggingInterceptor())
                 .build()
                 .start();
