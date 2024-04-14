@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+    id 'io.quarkus'
+    id 'io.freefair.lombok' version '8.6'
+}
+
+java {
+    sourceCompatibility = targetCompatibility = '17'
+}
+
+dependencies {
+    implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
+    implementation 'io.quarkus:quarkus-grpc'
+    implementation 'io.quarkus:quarkus-arc'
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-parameters'
+}

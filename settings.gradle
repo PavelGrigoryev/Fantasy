@@ -1,4 +1,16 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+    }
+    plugins {
+        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+    }
+}
+
 rootProject.name = 'Fantasy'
 include 'FlowOfFate',
         'Heroes',
-        'REST'
+        'REST',
+        'demo'
